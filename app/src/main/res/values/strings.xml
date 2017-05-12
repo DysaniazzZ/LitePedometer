@@ -1,4 +1,5 @@
 <resources>
   <string name="app_name">LitePedometer</string>
-  <string name="steps_count">Steps: %1$d</string>
+  <string name="today_steps">Today Steps: %1$d</string>
+  <string name="device_not_support">Device Not Support</string>
 </resources>
