@@ -2,13 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.dysania.litepedometer">
 
+  <!--声明应用需要使用系统的计步器，可以用来统计每天的步数-->
+  <uses-feature
+    android:name="android.hardware.sensor.stepcounter"
+    android:required="true"/>
+
   <application
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
-    <activity android:name=".MainActivity">
+    <activity android:name=".activity.PedometerActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
