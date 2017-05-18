@@ -61,6 +61,7 @@ public class PedometerService extends Service implements SensorEventListener {
     private Notification getNotification(String contentText) {
         return new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
                 .setContentText(contentText)
                 .setOngoing(true)
                 .build();
