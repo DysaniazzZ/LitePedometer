@@ -52,7 +52,7 @@ public class PedometerUtil {
     /**
      * 处理计步器读取的步数，并记录
      */
-    public static void handleStepCount(Context context, int currentSteps) {
+    public static boolean handleStepCount(Context context, int currentSteps) {
         long updateTime = SPUtil.getUpdateTime(context);
         long currentTime = System.currentTimeMillis();
 
@@ -60,10 +60,16 @@ public class PedometerUtil {
             //说明是刚开启计步或者重新计步，取当前计步器步数为起点，开始计步
             int stepAnchor = currentSteps;
             int stepCount = 0;
-            SPUtil.putStepAnchor(context, stepAnchor);
+            SPUtil.putSensorCount(context, currentSteps);
             SPUtil.putStepCount(context, stepCount);
+            SPUtil.putStepAnchor(context, stepAnchor);
             SPUtil.putUpdateTime(context, currentTime);
-            return;
+            return true;
+        }
+
+        int sensorCount = SPUtil.getSensorCount(context);
+        if (currentSteps == sensorCount) {
+            return false;
         }
 
         int stepAnchor = SPUtil.getStepAnchor(context);
@@ -97,9 +103,11 @@ public class PedometerUtil {
             stepAnchor = currentSteps;
             stepCount = 0;
         }
-        SPUtil.putStepAnchor(context, stepAnchor);
+        SPUtil.putSensorCount(context, currentSteps);
         SPUtil.putStepCount(context, stepCount);
+        SPUtil.putStepAnchor(context, stepAnchor);
         SPUtil.putUpdateTime(context, currentTime);
+        return true;
     }
 
     /**

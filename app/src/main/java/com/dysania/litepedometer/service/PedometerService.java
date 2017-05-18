@@ -1,8 +1,8 @@
 package com.dysania.litepedometer.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -22,14 +22,17 @@ public class PedometerService extends Service implements SensorEventListener {
     private int mSteps;
     private Sensor mStepCounterSensor;
     private SensorManager mSensorManager;
+    private NotificationManager mNotificationManager;
 
+    private static final int NOTIFICATION_ID = R.string.app_name;
     public static final String ACTION_STEP_CHANGE = "com.dysania.litepedometer.ACTION_STEP_CHANGE";
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mStepCounterSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -41,30 +44,35 @@ public class PedometerService extends Service implements SensorEventListener {
 
     private void startStepCounter() {
         if (PedometerUtil.isSupportStepCounter(this)) {
-            mSensorManager.registerListener(this, mStepCounterSensor, SensorManager.SENSOR_DELAY_FASTEST);
+            mSensorManager.registerListener(this, mStepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
     private void startForegroundNotification() {
         String contentText = getString(R.string.today_steps, PedometerUtil.getStepCount(this));
+        startForeground(NOTIFICATION_ID, getNotification(contentText));
+    }
 
-        Notification notification = new NotificationCompat.Builder(this)
+    private void updateNotification() {
+        String contentText = getString(R.string.today_steps, PedometerUtil.getStepCount(this));
+        mNotificationManager.notify(NOTIFICATION_ID, getNotification(contentText));
+    }
+
+    private Notification getNotification(String contentText) {
+        return new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(getString(R.string.app_name))
                 .setContentText(contentText)
                 .setOngoing(true)
                 .build();
-
-        startForeground(R.string.app_name, notification);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         mSteps = (int) event.values[0];      //获取的是从上次设备启动计步传感器被激活后的所有步数，设备重启后数据会被清空
 
-        PedometerUtil.handleStepCount(this, mSteps);
-
-        startForegroundNotification();
+        if (PedometerUtil.handleStepCount(this, mSteps)) {
+            updateNotification();
+        }
 
         sendBroadcast(new Intent(ACTION_STEP_CHANGE));
     }
