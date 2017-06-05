@@ -116,4 +116,18 @@ public class PedometerUtil {
     public static int getStepCount(Context context) {
         return SPUtil.getStepCount(context);
     }
+
+    public static long getUpdateTime(Context context) {
+        return SPUtil.getUpdateTime(context);
+    }
+
+    /**
+     * 重置计步数据
+     */
+    public static void resetStepCount(Context context) {
+        SPUtil.putSensorCount(context, 0);
+        SPUtil.putStepCount(context, 0);
+        SPUtil.putStepAnchor(context, 0);
+        SPUtil.putUpdateTime(context, 0);
+    }
 }

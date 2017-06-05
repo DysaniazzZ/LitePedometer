@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.dysania.litepedometer.R;
 import com.dysania.litepedometer.service.PedometerService;
 import com.dysania.litepedometer.utils.PedometerUtil;
+import com.dysania.litepedometer.utils.TimeUtil;
 
 public class PedometerActivity extends AppCompatActivity {
 
@@ -30,6 +31,12 @@ public class PedometerActivity extends AppCompatActivity {
 
         mTvSteps = (TextView) findViewById(R.id.tv_steps);
 
+        long currentTime = System.currentTimeMillis();
+        long updateTime = PedometerUtil.getUpdateTime(this);
+        if (!TimeUtil.isTheSameDay(currentTime, updateTime)) {
+            //如果记录的数据不是当天的，就先清空
+            PedometerUtil.resetStepCount(this);
+        }
         PedometerUtil.startPedometerService(this);
     }
 
