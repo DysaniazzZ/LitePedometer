@@ -1,4 +1,4 @@
-package com.dysania.litepedometer.utils;
+package com.dysania.litepedometer.util;
 
 import android.content.Context;
 import android.content.Intent;

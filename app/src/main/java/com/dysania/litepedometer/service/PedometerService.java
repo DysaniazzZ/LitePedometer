@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -11,7 +12,7 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import com.dysania.litepedometer.R;
-import com.dysania.litepedometer.utils.PedometerUtil;
+import com.dysania.litepedometer.util.PedometerUtil;
 
 /**
  * Created by DysaniazzZ on 12/05/2017.
@@ -60,7 +61,9 @@ public class PedometerService extends Service implements SensorEventListener {
 
     private Notification getNotification(String contentText) {
         return new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setSmallIcon(R.drawable.ic_notification)
+                .setColor(getResources().getColor(R.color.colorGreen))
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(contentText)
                 .setOngoing(true)

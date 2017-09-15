@@ -1,4 +1,4 @@
-package com.dysania.litepedometer.utils;
+package com.dysania.litepedometer.util;
 
 import java.util.Calendar;
 

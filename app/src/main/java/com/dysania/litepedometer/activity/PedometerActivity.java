@@ -11,8 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.dysania.litepedometer.R;
 import com.dysania.litepedometer.service.PedometerService;
-import com.dysania.litepedometer.utils.PedometerUtil;
-import com.dysania.litepedometer.utils.TimeUtil;
+import com.dysania.litepedometer.util.PedometerUtil;
+import com.dysania.litepedometer.util.TimeUtil;
 
 public class PedometerActivity extends AppCompatActivity {
 
