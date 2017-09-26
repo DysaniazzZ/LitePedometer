@@ -20,7 +20,7 @@ public class PedometerUtil {
      * 判断设备是否支持计步
      */
     public static boolean isSupportStepCounter(Context context) {
-        if (VERSION.SDK_INT <= VERSION_CODES.KITKAT) {
+        if (VERSION.SDK_INT < VERSION_CODES.KITKAT) {
             return false;
         }
 
